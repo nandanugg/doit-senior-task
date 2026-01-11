@@ -1,10 +1,20 @@
-.PHONY: run fmt lint
+.PHONY: run fmt lint test mocks
 
 run:
-	go run main.go
+	go run cmd/server/main.go
 
 fmt:
 	go fmt ./...
 
 lint:
 	golangci-lint run
+
+test:
+	go test -v ./...
+
+mocks:
+	@echo "Generating mocks..."
+	@mkdir -p modules/core/internal/test/mocks
+	@echo "Generating mock for repository interfaces..."
+	mockgen -source=modules/core/service/repository.go -destination=modules/core/internal/test/mocks/mock_repository.go -package=mocks
+	@echo "Mocks generated successfully"
