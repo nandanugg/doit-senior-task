@@ -14,6 +14,17 @@ func main() {
 	// Load configuration
 	cfg := config.Load()
 
+	// Initialize database
+	db, err := config.NewPostgresDB(cfg.DatabaseURL)
+	if err != nil {
+		log.Fatalf("Failed to initialize database: %v", err)
+	}
+	defer func() {
+		if err := db.Close(); err != nil {
+			log.Printf("Error closing database: %v", err)
+		}
+	}()
+
 	// Initialize Redis
 	redisClient, err := config.NewRedisClient(cfg.RedisURL)
 	if err != nil {
@@ -26,7 +37,7 @@ func main() {
 	}()
 
 	// Build application dependencies
-	builder := core.NewBuilder(redisClient)
+	builder := core.NewBuilder(db, redisClient)
 
 	// Initialize Echo server
 	e := echo.New()

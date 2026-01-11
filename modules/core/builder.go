@@ -2,10 +2,11 @@ package core
 
 import (
 	"context"
+	"database/sql"
 
 	"github.com/nanda/doit/modules/core/handler"
-	"github.com/nanda/doit/modules/core/internal/repo"
 	"github.com/nanda/doit/modules/core/internal/repo/cache"
+	"github.com/nanda/doit/modules/core/internal/repo/db"
 	"github.com/nanda/doit/modules/core/service"
 	"github.com/redis/go-redis/v9"
 )
@@ -29,11 +30,10 @@ type Builder struct {
 }
 
 // NewBuilder creates a new Builder with all dependencies initialized.
-func NewBuilder(redisClient *redis.Client) *Builder {
+func NewBuilder(database *sql.DB, redisClient *redis.Client) *Builder {
 	// Initialize repositories
 	cacheRepo := cache.NewRedisURLCacheRepo(redisClient)
-	// TODO: Replace stub with real PostgreSQL repo in next step
-	analyticRepo := repo.NewStubURLAnalyticRepo()
+	analyticRepo := db.NewPostgresURLAnalyticRepo(database)
 
 	// Initialize services
 	creatorSvc := service.NewLinkCreatorService(cacheRepo, analyticRepo)
@@ -45,7 +45,10 @@ func NewBuilder(redisClient *redis.Client) *Builder {
 	redirectorHandler := handler.NewLinkRedirectorHandler(redirectorSvc)
 	analyzerHandler := handler.NewLinkAnalyzerHandler(analyzerSvc)
 	healthzHandler := handler.NewHealthzHandler(func() error {
-		// Check Redis health
+		// Check both database and Redis health
+		if err := database.Ping(); err != nil {
+			return err
+		}
 		return redisClient.Ping(context.Background()).Err()
 	})
 

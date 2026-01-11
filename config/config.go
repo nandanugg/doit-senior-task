@@ -9,8 +9,9 @@ import (
 
 // Config holds all configuration for the application.
 type Config struct {
-	RedisURL string
-	Port     string
+	DatabaseURL string
+	RedisURL    string
+	Port        string
 }
 
 // Load loads the configuration from environment variables.
@@ -21,8 +22,9 @@ func Load() *Config {
 	}
 
 	cfg := &Config{
-		RedisURL: os.Getenv("REDIS_URL"),
-		Port:     os.Getenv("PORT"),
+		DatabaseURL: os.Getenv("DATABASE_URL"),
+		RedisURL:    os.Getenv("REDIS_URL"),
+		Port:        os.Getenv("PORT"),
 	}
 
 	// Set default port if not specified
