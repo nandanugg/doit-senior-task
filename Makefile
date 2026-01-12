@@ -1,4 +1,4 @@
-.PHONY: run fmt lint test mocks test-concurrent
+.PHONY: run fmt lint test mocks test-concurrent test-property
 
 run:
 	go run cmd/server/main.go
@@ -11,6 +11,10 @@ lint:
 
 test:
 	go test -v ./...
+
+test-property:
+	@echo "Running property tests..."
+	go test -v ./test/property/...
 
 test-concurrent:
 	@echo "Running concurrent load tests with k6..."
