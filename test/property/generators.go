@@ -6,9 +6,9 @@ import (
 	"strings"
 	"testing"
 
-	testutil "github.com/nanda/doit/test"
 	"github.com/leanovate/gopter"
 	"github.com/leanovate/gopter/gen"
+	testutil "github.com/nanda/doit/test"
 )
 
 // genLowerAlphaString generates a lowercase alphabetic string with length constraints.

@@ -6,11 +6,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/nanda/doit/config"
-	testutil "github.com/nanda/doit/test"
 	"github.com/leanovate/gopter"
 	"github.com/leanovate/gopter/gen"
 	"github.com/leanovate/gopter/prop"
+	"github.com/nanda/doit/config"
+	testutil "github.com/nanda/doit/test"
 )
 
 // TestProperty_ClickCountIncreasesMonotonically verifies that click count

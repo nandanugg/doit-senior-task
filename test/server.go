@@ -8,9 +8,9 @@ import (
 	"net/http"
 	"time"
 
+	"github.com/labstack/echo/v4"
 	"github.com/nanda/doit/modules/core"
 	"github.com/nanda/doit/modules/core/handler"
-	"github.com/labstack/echo/v4"
 	"github.com/redis/go-redis/v9"
 )
 

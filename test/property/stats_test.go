@@ -5,10 +5,10 @@ import (
 	"net/http"
 	"testing"
 
-	"github.com/nanda/doit/config"
-	testutil "github.com/nanda/doit/test"
 	"github.com/leanovate/gopter"
 	"github.com/leanovate/gopter/prop"
+	"github.com/nanda/doit/config"
+	testutil "github.com/nanda/doit/test"
 )
 
 // TestProperty_StatisticsAlwaysAvailable verifies that statistics should
